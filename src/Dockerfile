@@ -1,8 +1,11 @@
 FROM node
 WORKDIR /app
 COPY ./package*.json ./
+
+#
 RUN npm install -g npm@8.12.1
 RUN npm install
+
 COPY . .
 EXPOSE 8080
 CMD ["node", "server.js"]
