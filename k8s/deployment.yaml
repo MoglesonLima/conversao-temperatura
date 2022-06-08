@@ -1,0 +1,32 @@
+#Deployment Aplicacao
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversaotemp
+spec:
+  selector:
+    matchLabels:
+      app: conversaotemp
+  template:
+    metadata:
+      labels:
+        app: conversaotemp
+    spec:
+      containers:
+      - name: conversaotemp
+        image: moglesonlima/api-conversao:latest
+---
+#Service Aplicacao
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversao-temp
+spec:
+  selector:
+    app: conversaotemp
+  ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 30000
+  type: NodePort
+
