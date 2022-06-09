@@ -31,7 +31,7 @@ spec:
   #Porta Service
   - protocol: TCP
     port: 30000
-    #Porta exporta no pod
+    #Porta exposta no pod
     targetPort: 8080
   type: NodePort
 
