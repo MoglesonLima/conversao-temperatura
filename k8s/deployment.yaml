@@ -1,32 +1,39 @@
-#Deployment Aplicacao
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: conversaotemp
+  name: meudeployment
 spec:
+  replicas: 3
   selector:
     matchLabels:
-      app: conversaotemp
+      app: web
   template:
     metadata:
       labels:
-        app: conversaotemp
+        app: web
     spec:
       containers:
-      - name: conversaotemp
-        image: moglesonlima/api-conversao:latest
+        - name: web
+          image: moglesonlima/conversoa-temperatura:v1
+          ports:
+            - containerPort: 8080
+
+
 ---
-#Service Aplicacao
 apiVersion: v1
 kind: Service
 metadata:
-  name: conversao-temp
+  name: service-web
 spec:
   selector:
-    app: conversaotemp
+    app: web
   ports:
-  - port: 80
+  #Porta Service
+  - protocol: TCP
+    port: 30000
+    #Porta exporta no pod
     targetPort: 8080
-    nodePort: 30000
   type: NodePort
 
+#OBS. se faz necessário realizar o bind de porta no ato da criação do cluster
+#k3d cluster create my-cluster --servers 2 --agents 2 -p "30000:30000@loadbalancer"
